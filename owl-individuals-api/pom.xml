@@ -13,4 +13,5 @@
 			<artifactId>owlapi-api</artifactId>
 		</dependency>
 	</dependencies>
+	<name>OWL Individuals API</name>
 </project>

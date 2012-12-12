@@ -11,10 +11,18 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>owl-individuals-api</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
 			<artifactId>owlapi-apibinding</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+	<name>OWL Individuals implementation</name>
 </project>
