@@ -120,7 +120,6 @@ public class TestFOAFPROV {
 
 		Individuals individuals = new IndividualsImpl();
 		individuals.setStrict(true);
-		// FIXME: Can't load these before loading for some reason
 		individuals.importOntology("prov", "http://www.w3.org/ns/prov#");
 		individuals.importOntology("foaf", "http://xmlns.com/foaf/0.1/");
 		
@@ -128,9 +127,6 @@ public class TestFOAFPROV {
 		// Workaround for foaf:null bug
 		ttl = ttl.replaceAll(":null", ":");		
 		individuals.loadOntologyFromString(ttl);
-		
-//		individuals.importOntology("prov", "http://www.w3.org/ns/prov#");
-//		individuals.importOntology("foaf", "http://xmlns.com/foaf/0.1/");
 		
 		for (OWLIndividual entity : individuals.getIndividualsOfType("prov:Entity")) {
 			assertEquals("index.html", individuals.toIRI(entity));
