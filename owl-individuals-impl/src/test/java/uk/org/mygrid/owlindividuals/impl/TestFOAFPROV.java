@@ -31,6 +31,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
 
+import uk.org.mygrid.owlindividuals.api.Individuals;
 import uk.org.mygrid.owlindividuals.api.UnknownClassException;
 import uk.org.mygrid.owlindividuals.api.UnknownObjectPropertyException;
 
@@ -40,7 +41,7 @@ public class TestFOAFPROV {
 
 	@Test
 	public void individualsEmptyContructor() throws Exception {
-		Individuals individuals = new Individuals();
+		Individuals individuals = new IndividualsImpl();
 		assertNotNull(individuals.getManager());
 		assertNotNull(individuals.getOntology());
 	}
@@ -49,7 +50,7 @@ public class TestFOAFPROV {
 	public void individualsDetailedContructor() throws Exception {	
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		OWLOntology ontology = manager.createOntology();
-		Individuals individuals = new Individuals(manager, ontology);
+		Individuals individuals = new IndividualsImpl(manager, ontology);
 		assertSame(manager, individuals.getManager());
 		assertSame(ontology, individuals.getOntology());
 
@@ -66,8 +67,10 @@ public class TestFOAFPROV {
 
 		// Create ontology with two imports
 		IRI provIri = IRI.create("http://www.w3.org/ns/prov");
+		@SuppressWarnings("unused")
 		OWLOntology prov = manager.loadOntology(provIri);
 		IRI foafIri = IRI.create("http://xmlns.com/foaf/0.1");
+		@SuppressWarnings("unused")
 		OWLOntology foaf = manager.loadOntology(foafIri);
 
 		OWLDataFactory factory = manager.getOWLDataFactory();
@@ -117,7 +120,7 @@ public class TestFOAFPROV {
 			saveUsingIndividuals();
 		}
 
-		Individuals individuals = new Individuals();
+		Individuals individuals = new IndividualsImpl();
 		individuals.setStrict(true);
 		individuals.importOntology("prov", "http://www.w3.org/ns/prov#");
 		individuals.importOntology("foaf", "http://xmlns.com/foaf/0.1/");
@@ -153,8 +156,10 @@ public class TestFOAFPROV {
 		IRI ontologyIRI = IRI.create("prov.ttl");
 		OWLOntology ontology = manager.createOntology(ontologyIRI);
 		IRI provIri = IRI.create("http://www.w3.org/ns/prov");
+		@SuppressWarnings("unused")
 		OWLOntology prov = manager.loadOntology(provIri);
 		IRI foafIri = IRI.create("http://xmlns.com/foaf/0.1");
+		@SuppressWarnings("unused")
 		OWLOntology foaf = manager.loadOntology(foafIri);
 
 		DefaultPrefixManager pm = new DefaultPrefixManager();
@@ -220,7 +225,7 @@ public class TestFOAFPROV {
 
 	@Test
 	public void saveUsingIndividuals() throws Exception {
-		Individuals individuals = new Individuals();
+		Individuals individuals = new IndividualsImpl();
 		individuals.setStrict(true);
 		individuals.importOntology("prov", "http://www.w3.org/ns/prov#");
 		individuals.importOntology("foaf", "http://xmlns.com/foaf/0.1/");
