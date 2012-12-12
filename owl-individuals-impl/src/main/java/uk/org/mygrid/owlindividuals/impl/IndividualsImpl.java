@@ -47,6 +47,7 @@ import org.semanticweb.owlapi.util.InferredClassAssertionAxiomGenerator;
 import org.semanticweb.owlapi.util.InferredOntologyGenerator;
 
 import uk.org.mygrid.owlindividuals.api.AlreadyExistsException;
+import uk.org.mygrid.owlindividuals.api.Individuals;
 import uk.org.mygrid.owlindividuals.api.MultipleFoundException;
 import uk.org.mygrid.owlindividuals.api.UnknownAnnotationPropertyException;
 import uk.org.mygrid.owlindividuals.api.UnknownClassException;
@@ -55,7 +56,7 @@ import uk.org.mygrid.owlindividuals.api.UnknownDataTypeException;
 import uk.org.mygrid.owlindividuals.api.UnknownIndividualException;
 import uk.org.mygrid.owlindividuals.api.UnknownObjectPropertyException;
 
-public class Individuals {
+public class IndividualsImpl implements Individuals {
 
 	protected static <T> T firstOfSet(Set<T> set, String errorMsg) {
 		if (set.isEmpty()) {
@@ -76,12 +77,12 @@ public class Individuals {
 
 	private DefaultPrefixManager prefixManager = new DefaultPrefixManager();
 
-	public Individuals() throws OWLOntologyCreationException {
+	public IndividualsImpl() throws OWLOntologyCreationException {
 		setManager(OWLManager.createOWLOntologyManager());
 		setOntology(getManager().createOntology());
 	}
 
-	public Individuals(OWLOntologyManager manager, OWLOntology ontology) {
+	public IndividualsImpl(OWLOntologyManager manager, OWLOntology ontology) {
 		this.setManager(manager);
 		this.setOntology(ontology);
 	}
