@@ -45,9 +45,9 @@ public class TestFOAFPROV {
 		assertNotNull(individuals.getManager());
 		assertNotNull(individuals.getOntology());
 	}
-	
+
 	@Test
-	public void individualsDetailedContructor() throws Exception {	
+	public void individualsDetailedContructor() throws Exception {
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		OWLOntology ontology = manager.createOntology();
 		Individuals individuals = new IndividualsImpl(manager, ontology);
@@ -83,10 +83,12 @@ public class TestFOAFPROV {
 
 		OWLOntology ontology;
 
-		String ttl = new String(Files.readAllBytes(testFile), Charset.forName("utf-8"));
+		String ttl = new String(Files.readAllBytes(testFile),
+				Charset.forName("utf-8"));
 		// Workaround for foaf:null bug
-		ttl = ttl.replaceAll(":null", ":");		
-		ontology = manager.loadOntologyFromOntologyDocument(new StringDocumentSource(ttl));
+		ttl = ttl.replaceAll(":null", ":");
+		ontology = manager
+				.loadOntologyFromOntologyDocument(new StringDocumentSource(ttl));
 
 		for (OWLIndividual entity : entityClass.getIndividuals(ontology)) {
 			System.out.println("Entity " + entity);
@@ -122,20 +124,22 @@ public class TestFOAFPROV {
 		individuals.setStrict(true);
 		individuals.importOntology("prov", "http://www.w3.org/ns/prov#");
 		individuals.importOntology("foaf", "http://xmlns.com/foaf/0.1/");
-		
-		String ttl = new String(Files.readAllBytes(testFile), Charset.forName("utf-8"));
+
+		String ttl = new String(Files.readAllBytes(testFile),
+				Charset.forName("utf-8"));
 		// Workaround for foaf:null bug
-		ttl = ttl.replaceAll(":null", ":");		
+		ttl = ttl.replaceAll(":null", ":");
 		individuals.loadOntologyFromString(ttl);
-		
-		for (OWLIndividual entity : individuals.getIndividualsOfType("prov:Entity")) {
+
+		for (OWLIndividual entity : individuals
+				.getIndividualsOfType("prov:Entity")) {
 			assertEquals("index.html", individuals.toIRI(entity));
 			String predicateCurie = "prov:wasAttributedTo";
-			Set<OWLIndividual> attributed = individuals.getObjectProperties(entity,
-					predicateCurie);
+			Set<OWLIndividual> attributed = individuals.getObjectProperties(
+					entity, predicateCurie);
 			assertEquals(1, attributed.size());
-			OWLIndividual me = individuals
-					.getObjectProperty(entity, predicateCurie);
+			OWLIndividual me = individuals.getObjectProperty(entity,
+					predicateCurie);
 			System.out.println("  prov:wasAttributedTo " + me);
 			assertEquals("http://soiland-reyes.com/stian/#me",
 					individuals.toIRI(me));
@@ -229,27 +233,26 @@ public class TestFOAFPROV {
 		individuals.importOntology("prov", "http://www.w3.org/ns/prov#");
 		individuals.importOntology("foaf", "http://xmlns.com/foaf/0.1/");
 
-		OWLNamedIndividual index = individuals.createIndividual("<index.html>"
-//				,"prov:Entity"
-//				,"foaf:Document"
-				);
+		OWLNamedIndividual index = individuals.createIndividual("<index.html>",
+				"prov:Entity", "foaf:Document");
 		OWLNamedIndividual me = individuals.createIndividual(
-				"<http://soiland-reyes.com/stian/#me>" 
-//				,"prov:Agent"
-//				,"foaf:Person"
-				);
-		
+				"<http://soiland-reyes.com/stian/#me>", "prov:Agent",
+				"foaf:Person");
+
 		individuals.addObjectProperty(index, "prov:wasAttributedTo", me);
 		individuals.addDataPropertyPlain(me, "foaf:givenName", "Soiland-Reyes");
-//		individuals.fillInOntology();
-//		individuals.fillInOntology(new Reasoner.ReasonerFactory().createReasoner(individuals.getOntology()));
-//		individuals.fillInOntology(new PelletReasonerFactory().createReasoner(individuals.getOntology()));
-//		individuals.fillInOntology(new JFactFactory().createReasoner(individuals.getOntology()));
-		// Disabled as the ELK reasoner can't do object properties and this fails with
+		// individuals.fillInOntology();
+		// individuals.fillInOntology(new
+		// Reasoner.ReasonerFactory().createReasoner(individuals.getOntology()));
+		// individuals.fillInOntology(new
+		// PelletReasonerFactory().createReasoner(individuals.getOntology()));
+		// individuals.fillInOntology(new
+		// JFactFactory().createReasoner(individuals.getOntology()));
+		// Disabled as the ELK reasoner can't do object properties and this
+		// fails with
 		// UnsupportedOperationException
-//		individuals.fillInOntology(new ElkReasonerFactory().createReasoner(individuals.getOntology()));
-		
-		
+		// individuals.fillInOntology(new
+		// ElkReasonerFactory().createReasoner(individuals.getOntology()));
 
 		testFile = Files.createTempFile("prov", ".ttl");
 		try (OutputStream outputStream = Files.newOutputStream(testFile)) {
